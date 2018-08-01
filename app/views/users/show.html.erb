@@ -31,57 +31,59 @@
 				</div>
 
 				<%# edit modal %>
-				<div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-					<div class="modal-dialog modal-dialog-centered" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="exampleModalLongTitle">Edit Profile</h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>
-							<div class="modal-body">
-								<%= form_with scope: :profile, url: user_path(@user.id), method: :put, local: true do |f| %>
-									<div class="text-field form-group row">
-										<%= f.label :owner_name, class:"col-sm-3 col-form-label" %>
-										<div class="col-sm-9">
-											<%= f.text_field :owner_name, placeholder: @user.owner_name, class:"form-control" %>
+				<% if signed_in? && current_user.id = @user.id %>
+					<div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLongTitle">Edit Profile</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<%= form_with scope: :profile, url: user_path(@user.id), method: :put, local: true do |f| %>
+										<div class="text-field form-group row">
+											<%= f.label :owner_name, class:"col-sm-3 col-form-label" %>
+											<div class="col-sm-9">
+												<%= f.text_field :owner_name, placeholder: @user.owner_name, class:"form-control" %>
+											</div>
 										</div>
-									</div>
-									<div class="text-field form-group row">
-										<%= f.label :dog_name, "Name", class:"col-sm-3 col-form-label" %>
-										<div class="col-sm-9">
-											<%= f.text_field :dog_name, placeholder: @user.dog_name, class:"form-control" %>
+										<div class="text-field form-group row">
+											<%= f.label :dog_name, "Name", class:"col-sm-3 col-form-label" %>
+											<div class="col-sm-9">
+												<%= f.text_field :dog_name, placeholder: @user.dog_name, class:"form-control" %>
+											</div>
 										</div>
-									</div>
-									<div class="text-field form-group row">
-										<%= f.label :breed, class:"col-sm-3 col-form-label" %>
-										<div class="col-sm-9">
-											<%= f.text_field :breed, placeholder: @user.breed, class:"form-control" %>
+										<div class="text-field form-group row">
+											<%= f.label :breed, class:"col-sm-3 col-form-label" %>
+											<div class="col-sm-9">
+												<%= f.text_field :breed, placeholder: @user.breed, class:"form-control" %>
+											</div>
 										</div>
-									</div>
-									<div class="text-field form-group row">
-										<%= f.label :bio, "Biography", class:"col-sm-3 col-form-label" %>
-										<div class="col-sm-9">
-											<%= f.text_area :bio, placeholder: @user.bio, class:"form-control" %>
+										<div class="text-field form-group row">
+											<%= f.label :bio, "Biography", class:"col-sm-3 col-form-label" %>
+											<div class="col-sm-9">
+												<%= f.text_area :bio, placeholder: @user.bio, class:"form-control" %>
+											</div>
 										</div>
-									</div>
-									<% if !@user.profile_pic.file.nil? %>			
-										<%= f.label :profile_pic, "Change Profile Picture"%>
-									<% else %>
-										<%= f.label :profile_pic, "Upload Profile Picture"%>
+										<% if !@user.profile_pic.file.nil? %>			
+											<%= f.label :profile_pic, "Change Profile Picture"%>
+										<% else %>
+											<%= f.label :profile_pic, "Upload Profile Picture"%>
+										<% end %>
+										<p><%= f.file_field :profile_pic %></p>
+										<div class="modal-footer">
+											<%= button_to "Delete Profile", user_path(current_user.id), method: :delete, :data => {:confirm => 'Are you sure?'}, class:"btn btn-danger" %>
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+											<%= f.submit "Update", class:"btn btn-primary" %>
+										</div>
 									<% end %>
-									<p><%= f.file_field :profile_pic %></p>
-									<div class="modal-footer">
-										<%= button_to "Delete Profile", user_path(current_user.id), method: :delete, :data => {:confirm => 'Are you sure?'}, class:"btn btn-danger" %>
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-										<%= f.submit "Update", class:"btn btn-primary" %>
-									</div>
-								<% end %>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				<% end %>
 				<%# end %>
 
 			</div>

@@ -1,8 +1,6 @@
 class UsersController < ApplicationController
-  before_action :require_login, only: [:edit, :update, :profilePic, :profilePic_update, :destroy]
-  def new 
-  end
-  
+  before_action :require_login, only: [:update, :profilePic, :profilePic_update, :destroy]
+
   def create
     @user = User.new(create_params)
     @user.update(status: 0, total_points: 0)
@@ -17,10 +15,6 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
-  end
-
-  def edit
     @user = User.find(params[:id])
   end
 
