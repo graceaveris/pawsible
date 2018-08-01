@@ -1,3 +1,29 @@
 // Place all the styles related to the user controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+// for profile picture
+.rounded-circle {
+  border-radius: 50%!important;
+  width: 200px;
+  height: 200px;
+}
+// end
+
+// for profile page
+#ww {
+	padding-top: 40px;
+	padding-bottom: 40px;
+	background-color: #f2f2f2;
+}
+
+#pt {
+	padding-top: 40px;
+	padding-bottom: 20px;
+}
+
+#mt {
+	margin-top: 40px;
+	margin-bottom: 20px;
+}
+// end

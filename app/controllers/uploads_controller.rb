@@ -1,8 +1,5 @@
 class UploadsController < ApplicationController
-  before_action :require_login, only: [:new, :create]
-
-  def new
-  end
+  before_action :require_login, only: [:create]
 
   def create
     upload = Upload.new(create_params)
@@ -34,7 +31,7 @@ class UploadsController < ApplicationController
     @uploads = Upload.all.reverse_order.paginate(:page => params[:page], :per_page => 12)
     if params[:filter]
       challenge = Challenge.where(title: filter_params[:challenge]) if filter_params[:challenge].present?
-      @uploads = @uploads.where(challenge_id: challenge) if filter_params[:challenge].present? 
+      @uploads = @uploads.where(challenge_id: challenge).paginate(:page => params[:page], :per_page => 12) if filter_params[:challenge].present? 
     end
     respond_to do |format|
       format.html {render :index}

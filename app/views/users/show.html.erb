@@ -1,112 +1,140 @@
-<div class="container">
-	<div class="row">
-		<div class="col-sm-12 col-md-6 my-4">
+<%# self define id for top part %>
+<div id="ww">
+	<div class="container-fluid">
+		<div style="width: 80vw; margin: auto;">
+		
+			<%# profile and details %>
 			<div class="row">
-				<div class="col-sm-2"></div>
-				<div class="col-sm-10" align="center">
-					<% if !@user.profile_pic.file.nil? %>
-						<%= image_tag @user.profile_pic.url.to_s, class:"profile-pic my-4" %>
-					<% else %>
-						<%= image_tag "profile_pic.png", class:"profile-pic my-4"%>
-					<% end %>	
-					<%= image_tag(@user.badge, class:"profile-badge")%>
-				</div>
-			</div>
-		</div>
-
-		<div class="col-sm-12 col-md-6 my-4">
-			<h2 class="my-4"><%= @user.dog_name %></h2>
-			<p class="lead">Status: <%= @user.status %></p>
-			<p>Breed: <%= @user.breed %></p>
-			<p>Parent: <%= @user.owner_name %></p>
-			<p>Biography: <%= @user.bio %></p>
-			<p>Points I have: <%= @user.total_points %></p>
-	
-			<% if signed_in? && current_user.id = @user.id %>
-
-<!-- Button to trigger modal -->
-				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editProfileModal">
-				  Edit Profile
-				</button>
-			<% end %>
-<!-- button to trigger modal -->		
-
-		</div>
-	</div>
-
-	<div class="row my-4">
-		<% @user.uploads.each do |upload| %>
-	    <div class="col-sm-6 col-lg-4">
-	    	<div class="card">
-	    		<div class="card-body">
-  					<% if !upload.media.file.nil? %>
-							<% if %w(mp4).include?(upload.media.file.extension.downcase) %>
-								<a href="<%= upload_path(upload.id) %>" class="card-img-top">
-									<video class="card-img-top" controls="controls" preload="none" width="300" src="<%= upload.media.url %>" poster="<%= upload.media.thumb.url %>"></video>
-								</a>
-							<% elsif %w(jpg jpeg gif png).include?(upload.media.file.extension.downcase) %>
-								<%= link_to image_tag(upload.media.url.to_s, class:"card-img-top"), upload_path(upload.id) %>
-							<% end %>
+				<div class="col-sm-8 offset-2 text-center">
+        	<div class="d-flex justify-content-center">
+						<% if !@user.profile_pic.file.nil? %>
+							<%= image_tag @user.profile_pic.url.to_s, class:"profile-pic my-4 rounded-circle" %>
+						<% else %>
+							<%= image_tag "profile_pic.png", class:"profile-pic my-4 rounded-circle"%>
 						<% end %>
-						<p class="lead"><%= upload.challenge.title %></p> 
+            <div style="position: relative;">   
+              <%= image_tag(@user.badge, style: "width: 60px; height: 60px; position: absolute; top: 165px; right: 0") %>
+						</div>
 					</div>
+					<h1>Hi, I am <%= @user.dog_name %>!</h1>
+					<p>Hello everybody. I'm currently a <strong><%= @user.status %></strong>. My breed is <%= @user.breed %> and I have a good parent who named as <%= @user.owner_name %>.</p>
+					<h3><u>My biography</u></h3>
+					<p><%= @user.bio %></p>
+					<p>Total points I have the challenges is <strong><%= @user.total_points %></strong></p>
+
+					<%# button to edit profile %>
+					<% if signed_in? && current_user.id = @user.id %>
+						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editProfileModal">Edit Profile</button>
+					<% end %>
+					<%# end %>
+				
 				</div>
+
+				<%# edit modal %>
+				<% if signed_in? && current_user.id = @user.id %>
+					<div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLongTitle">Edit Profile</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<%= form_with scope: :profile, url: user_path(@user.id), method: :put, local: true do |f| %>
+										<div class="text-field form-group row">
+											<%= f.label :owner_name, class:"col-sm-3 col-form-label" %>
+											<div class="col-sm-9">
+												<%= f.text_field :owner_name, placeholder: @user.owner_name, class:"form-control" %>
+											</div>
+										</div>
+										<div class="text-field form-group row">
+											<%= f.label :dog_name, "Name", class:"col-sm-3 col-form-label" %>
+											<div class="col-sm-9">
+												<%= f.text_field :dog_name, placeholder: @user.dog_name, class:"form-control" %>
+											</div>
+										</div>
+										<div class="text-field form-group row">
+											<%= f.label :breed, class:"col-sm-3 col-form-label" %>
+											<div class="col-sm-9">
+												<%= f.text_field :breed, placeholder: @user.breed, class:"form-control" %>
+											</div>
+										</div>
+										<div class="text-field form-group row">
+											<%= f.label :bio, "Biography", class:"col-sm-3 col-form-label" %>
+											<div class="col-sm-9">
+												<%= f.text_area :bio, placeholder: @user.bio, class:"form-control" %>
+											</div>
+										</div>
+										<% if !@user.profile_pic.file.nil? %>			
+											<%= f.label :profile_pic, "Change Profile Picture"%>
+										<% else %>
+											<%= f.label :profile_pic, "Upload Profile Picture"%>
+										<% end %>
+										<p><%= f.file_field :profile_pic %></p>
+										<div class="modal-footer">
+											<%= button_to "Delete Profile", user_path(current_user.id), method: :delete, :data => {:confirm => 'Are you sure?'}, class:"btn btn-danger" %>
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+											<%= f.submit "Update", class:"btn btn-primary" %>
+										</div>
+									<% end %>
+								</div>
+							</div>
+						</div>
+					</div>
+				<% end %>
+				<%# end %>
+
 			</div>
-		<% end %>
+			<%# end %>
+
+		</div>
 	</div>
 </div>
-<!-- Modal to edit profile below -->	
+<%# done for top part %>
 
-<!-- Modal setup -->
-<div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document">
-    	<div class="modal-content">
-      		<div class="modal-header">
-        		<h5 class="modal-title" id="exampleModalLongTitle">Edit Profile</h5>
-        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          		<span aria-hidden="true">&times;</span>
-        		</button>
+<%# self define id for bottom part %>
+<div id="pt">
+	<div class="container-fluid">
+		<div style="width: 80vw; margin: auto;">
+    	<h2 class="my-2 text-center">Challenged by ME</h2>
+			<div class="row text-center" id="mt">
+				<% if @user.uploads.size < 1 %>
+					<div class="col-md-4 bg-white mx-auto">
+        		<div class="card">
+          		<div class="card-body text-center pb-0">
+            		<h4 class="card-title">You have not done any challenge yet</h4>
+            		<hr>
+            		<p class="card-text">
+									<%= button_to "Click to see challenges", challenges_path, method: :get, class: "btn btn-primary" %>
+								</p>  
+          		</div>
+        		</div>
       		</div>
-	      	<div class="modal-body">
-				<%= form_with scope: :profile, url: user_path(@user.id), method: :put, local: true do |f| %>
-					<div class="text-field form-group row">
-						<%= f.label :owner_name, class:"col-sm-3 col-form-label" %>
-						<div class="col-sm-9">
-							<%= f.text_field :owner_name, placeholder: @user.owner_name, class:"form-control" %>
+				<% else %>
+					<% @user.uploads.each do |upload| %>
+						<div class="col-md-4 mb-4">
+							<div class="card h-100">
+								<% if %w(mp4).include?(upload.media.file.extension.downcase) %>
+									<%= link_to image_tag(upload.media.thumb.url.to_s, class: "w-100"), upload_path(upload.id) %>
+									<div class="card-body pb-0">
+										<h4 class="card-title">
+											<%= upload.challenge.title %> <i class="fas fa-video"></i>
+								<% elsif %w(jpg jpeg gif png).include?(upload.media.file.extension.downcase) %>
+									<%= link_to image_tag(upload.media.url.to_s, class:"w-100"), upload_path(upload.id) %>
+									<div class="card-body pb-0">
+										<h4 class="card-title">
+											<%= upload.challenge.title %> <i class="fas fa-images"></i>
+								<% end %>
+									</h4>
+								</div>
+							</div>
 						</div>
-					</div>
-					<div class="text-field form-group row">
-						<%= f.label :dog_name, "Name", class:"col-sm-3 col-form-label" %>
-						<div class="col-sm-9">
-							<%= f.text_field :dog_name, placeholder: @user.dog_name, class:"form-control" %>
-						</div>
-					</div>
-					<div class="text-field form-group row">
-						<%= f.label :breed, class:"col-sm-3 col-form-label" %>
-						<div class="col-sm-9">
-							<%= f.text_field :breed, placeholder: @user.breed, class:"form-control" %>
-						</div>
-					</div>
-					<div class="text-field form-group row">
-						<%= f.label :bio, "Biography", class:"col-sm-3 col-form-label" %>
-						<div class="col-sm-9">
-							<%= f.text_field :bio, placeholder: @user.bio, class:"form-control" %>
-						</div>
-					</div>
-					<% if !@user.profile_pic.file.nil? %>			
-						<%= f.label :profile_pic, "Change Profile Pic"%>
-					<% else %>
-						<%= f.label :profile_pic, "Upload Profile Pic"%>
 					<% end %>
-					<%= f.file_field :profile_pic %>
-	      	</div>
-	      	<div class="modal-footer">
-	        	<%= f.submit "Update", class:"btn btn-primary" %>
-		    	<% end %>
-	        	<%= button_to "Delete Profile", user_path(current_user.id), method: :delete, :data => {:confirm => 'Are you sure?'}, class:"btn btn-danger" %>
-	        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	      	</div>
-    	</div>
-  	</div>
+				<% end %>
+			</div>
+		</div>
+	</div>
 </div>
-
+<%# done for bottom part %>

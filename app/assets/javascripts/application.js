@@ -13,6 +13,33 @@
 //= require rails-ujs
 //= require jquery3
 //= require popper
-//= require bootstrap-sprockets
+//= require bootstrap
 //= require activestorage
 //= require_tree .
+
+// feed index page autocomplete for search field
+document.addEventListener("DOMContentLoaded", function(event) {
+  let searchTitleArray = [];
+  $( "#filter_challenge" ).keyup(function(key) {
+    $.ajax({
+      method: "GET",
+      url: "/search/autocomplete",
+      data: $(this).serialize(),
+      dataType: "json"
+    })
+    .done(function( data ) {
+      if (data.length === 0 || ($("#filter_challenge").val().length === 0 && (key.keyCode === 8 || key.keyCode === 46)) ) {
+        $( "#dropdown" ).empty(); 
+        searchTitleArray = [];           
+      } else {
+        data.forEach(function(element) {
+          if (searchTitleArray.indexOf(element.title) === -1) {
+            searchTitleArray.push(element.title);
+            $( "#dropdown" ).append( `<option value='${element.title}'>` );
+          };
+        });
+      };
+    });
+  });
+});
+// end

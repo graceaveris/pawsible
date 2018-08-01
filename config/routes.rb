@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
-  resources :users, only: [:create, :show, :edit, :update, :destroy]
+  resources :users, only: [:create, :show, :update, :destroy]
   get "/leaderboard" => "users#leaderboard", as: "leaderboard"
   resources :uploads, only: [:index, :show]
-  resources :challenges, only: [:index, :new, :create, :edit, :update] do
-    resources :uploads, only: [:new, :create]
+  resources :challenges, only: [:index] do
+    resources :uploads, only: [:create]
   end
   get "/search/autocomplete" => "uploads#autocomplete"
 

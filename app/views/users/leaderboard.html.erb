@@ -1,40 +1,75 @@
-<div class="container">
+<div class="container-fluid">
+  <div style="width: 80vw; margin: auto;">
 
-  <div align="center">
-    <h1 class="my-5">Leaderboard</h1>
+    <%# title %>
+    <h1 class="my-4">LeaderBoard</h1>
+    <%# end %>
+    
+    <%# row %>
+    <% @leaderboard.each_with_index do |dog, index| %>
+      <div class="row mt-4 mb-0">
+
+        <%# profile image, ranking, bagde %>
+        <div class="col-md-4 mb-3 d-flex justify-content-center">
+          <div style="position: relative;">
+            <div style="position: absolute; top: -19px; left: -28px;">
+              <i class="fas fa-star text-warning fa-5x"></i>
+              <span class="h1 text-white" style="position: absolute; top: 20px; left: 33px;"><%= index + 1 %></span>
+            </div>
+            <% if !dog.profile_pic.file.nil? %>
+              <%= image_tag dog.profile_pic.url.to_s, class: "rounded-circle img-fluid d-blockd" %>
+            <% else %>
+              <%= image_tag "profile_pic.png", class: "rounded-circle img-fluid d-block" %>
+            <% end %>
+            <div style="position: relative;">   
+              <%= image_tag(dog.badge, style: "width: 60px; height: 60px; position: absolute; top: -50px; right: 0") %>
+            </div>
+          </div>
+        </div>
+        <%# end %>
+
+        <%# detail %>
+        <div class="col-md-4 mb-3">
+          <h3>Points: <strong><%= dog.total_points %></strong></h3>
+          <p>Name: <%= dog.dog_name %></p>
+          <p>About me: <%= dog.dog_name %></p>
+          <p>Owner: <%= dog.owner_name %></p>
+          <%= button_to "View Profile", user_path(dog.id), method: :get, class:"btn btn-primary" %>
+        </div>
+        <%# end %>
+
+        <%# challenge %>
+        <div class="col-md-4">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Latest Challenge</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% dog.uploads.each_with_index do |upload, index| %>
+                <% if index < 3 %>
+                  <tr>
+                    <td scope="row"><%= index + 1%></td>
+                    <td><%= upload.challenge.title %></td>
+                    <td><%= button_to "View", upload_path(upload.id), method: :get, class:"btn btn-primary btn-sm" %></td>
+                  </tr>
+                <% end %>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+        <%# end %>
+        
+      </div>
+    <% end %>
+    <%# end %>
+    
   </div>
-
-  <table class="table">
-    <thead class="thead-dark" align="center">
-        <tr>
-          <th scope="col">Ranking</th>
-          <th scope="col">Profile Pic</th>
-          <th scope="col">Badge</th>
-          <th scope="col">Name</th>
-          <th scope="col">Points</th>
-          <th scope="col">Owner</th>
-          <th scope="col">View Profile</th>
-        </tr>
-    </thead>
-    <tbody align="center">
-      <% @leaderboard.each_with_index do |dog, index| %>
-        <tr>
-          <td><%= index + 1 %></td> 
-          <% if !dog.profile_pic.file.nil? %>
-            <td><%= image_tag dog.profile_pic.url.to_s, class:"thumbnail circular" %></td>
-          <% else %>
-            <td><%= image_tag "profile_pic.png", class:"thumbnail circular" %></td>
-          <% end %>   
-          <td><%= image_tag(dog.badge, class:"thumbnail") %></td>
-          <td><%= dog.dog_name %></td>
-          <td><%= dog.total_points %></td> 
-          <td><%= dog.owner_name %></td>
-          <td><%= button_to "View Profile", user_path(dog.id), method: :get, class:"btn btn-primary" %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-
 </div>
-<%= paginate @leaderboard %>
 
+<%# pagination %>
+<%= will_paginate @leaderboard, list_classes: %w(pagination justify-content-center mt-3) %>
+<%# end %>

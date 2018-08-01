@@ -5,6 +5,8 @@ ruby '2.5.1'
 
 # For pagination on uploads index view
 gem 'will_paginate', '~> 3.1.0'
+# To style the pagination
+gem 'will_paginate-bootstrap4'
 # For seeding database
 gem 'faker'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -39,9 +41,6 @@ gem "fog-aws"
 
 # To store sensitive info without upload to git
 gem "figaro"
-
-# Use to do pagination
-gem 'kaminari'
 
 # Use to see the email being sent in development stage
 gem "letter_opener", :group => :development
