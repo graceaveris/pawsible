@@ -1,28 +1,33 @@
-<% if @uploads.size > 0 %>
-  <% @uploads.each do |media| %>
-        <div class="col-sm-4">
-       <div class="card">
-                     
-          <div class="card-block">
-    <% if !media.media.file.nil? %>
-
-    <% if %w(mp4).include?(media.media.file.extension.downcase) %>
-      <a href="<%= upload_path(media.id) %>">
-        <video controls="controls" preload="none" width="300" src="<%= media.media.url %>" poster="<%= media.media.thumb.url %>"></video>
-      </a>
-    <% elsif %w(jpg jpeg gif png).include?(media.media.file.extension.downcase) %>
-      <%= link_to image_tag(media.media.url.to_s), upload_path(media.id) %>
+<%# row %>
+<div class="row">
+  <% if @uploads.size > 0 %>
+    <% @uploads.each do |media| %>
+      <div class="col-lg-4 col-sm-6 portfolio-item">
+        <div class="card h-100">
+          <% if %w(mp4).include?(media.media.file.extension.downcase) %>
+            <%= link_to image_tag(media.media.thumb.url.to_s, class: "w-100"), upload_path(media.id) %>
+            <div class="card-body">
+              <h4 class="card-title">
+                <%= media.challenge.title %> <i class="fas fa-video"></i>
+              </h4>
+          <% elsif %w(jpg jpeg gif png).include?(media.media.file.extension.downcase) %>
+            <%= link_to image_tag(media.media.url.to_s, class: "w-100"), upload_path(media.id) %>
+            <div class="card-body">
+              <h4 class="card-title">
+                <%= media.challenge.title %> <i class="fas fa-images"></i>
+              </h4>
+          <% end %>
+            <p class="card-text">Completed By: <%= media.user.dog_name %></p>
+            <p class="card-text">Posted On: <%= media.created_at.time.strftime("%d-%m-%Y") %></p>
+          </div>
+        </div>
+      </div>
     <% end %>
-    <% end %>
-
-    <h5 class="card-title"><%= media.challenge.title %></h5>  
-    <h6 class="card-subtitle mb-2 text-muted"><%="Completed By: #{media.user.dog_name}" %></h6>
-    <h6 class="card-subtitle mb-2 text-muted"><%="Posted On: #{media.created_at}" %></h6>
-
-    <%= button_to "view", upload_path(media.id), method: :get, class: 'mb-4 btn btn-primary' %>
-
-    </div>
-    </div>
-    </div>
   <% end %>
-<% end %>
+</div>
+
+<%# pagination %>
+<%= will_paginate @uploads, list_classes: %w(pagination justify-content-center) %>
+<%# end %>
+
+<%# end %>
