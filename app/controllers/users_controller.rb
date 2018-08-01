@@ -30,7 +30,7 @@ class UsersController < ApplicationController
   end
 
   def leaderboard
-    @leaderboard = User.all.order(:total_points).reverse_order.page params[:page]
+    @leaderboard = User.all.order(:total_points).reverse_order.paginate(:page => params[:page], :per_page => 20)
   end
 
   def destroy

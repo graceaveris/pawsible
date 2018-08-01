@@ -1,58 +1,60 @@
-<div class="container">
+<div class="container-fluid">
+  <div style="width: 80vw; margin: auto;">
 
-  <%# Page Heading %>
-  <h1 class="my-4">Completed Challenges
-    <p><small>The latest achievement from our dog community</small></p> 
-  </h1>
-  <%# end %>
+    <%# Page Heading %>
+    <h1 class="my-4">Completed Challenges
+      <p><small>The latest achievement from our dog community</small></p> 
+    </h1>
+    <%# end %>
 
-  <%# Filter search bar %>
-  <%= form_with scope: :filter, url: uploads_path, method: :get, remote: true, class: "card p-2 col-md-6 mb-3" do |f| %>
-    <div class="input-group">
-      <%= f.search_field :challenge, placeholder: "Challenge Name", list: "dropdown", class: "form-control" %>
-      <datalist id="dropdown"></datalist>
-      <div class="input-group-append">
-        <%= f.submit "Search", class: "btn btn-secondary" %>
+    <%# Filter search bar %>
+    <%= form_with scope: :filter, url: uploads_path, method: :get, remote: true, class: "card p-2 col-md-6 mb-3" do |f| %>
+      <div class="input-group">
+        <%= f.search_field :challenge, placeholder: "Challenge Name", list: "dropdown", class: "form-control" %>
+        <datalist id="dropdown"></datalist>
+        <div class="input-group-append">
+          <%= f.submit "Search", class: "btn btn-secondary" %>
+        </div>
       </div>
-    </div>
-  <% end %>
-  <%# end %>
+    <% end %>
+    <%# end %>
 
-  <%# row %>
-  <div id="feed-content">
-    <div class="row">
-      <% if @uploads.size > 0 %>
-        <% @uploads.each do |media| %>
-          <div class="col-lg-4 col-sm-6 portfolio-item">
-            <div class="card h-100">
-              <% if %w(mp4).include?(media.media.file.extension.downcase) %>
-                <%= link_to image_tag(media.media.thumb.url.to_s, class: "w-100"), upload_path(media.id) %>
-                <div class="card-body">
-                  <h4 class="card-title">
-                    <%= media.challenge.title %> <i class="fas fa-video"></i>
-                  </h4>
-              <% elsif %w(jpg jpeg gif png).include?(media.media.file.extension.downcase) %>
-                <%= link_to image_tag(media.media.url.to_s, class: "w-100"), upload_path(media.id) %>
-                <div class="card-body">
-                  <h4 class="card-title">
-                    <%= media.challenge.title %> <i class="fas fa-images"></i>
-                  </h4>
-              <% end %>
-                <p class="card-text">Completed By: <%= media.user.dog_name %></p>
-                <p class="card-text">Posted On: <%= media.created_at.time.strftime("%d-%m-%Y") %></p>
+    <%# row %>
+    <div id="feed-content">
+      <div class="row">
+        <% if @uploads.size > 0 %>
+          <% @uploads.each do |media| %>
+            <div class="col-lg-4 col-sm-6 portfolio-item">
+              <div class="card h-100">
+                <% if %w(mp4).include?(media.media.file.extension.downcase) %>
+                  <%= link_to image_tag(media.media.thumb.url.to_s, class: "w-100"), upload_path(media.id) %>
+                  <div class="card-body">
+                    <h4 class="card-title">
+                      <%= media.challenge.title %> <i class="fas fa-video"></i>
+                    </h4>
+                <% elsif %w(jpg jpeg gif png).include?(media.media.file.extension.downcase) %>
+                  <%= link_to image_tag(media.media.url.to_s, class: "w-100"), upload_path(media.id) %>
+                  <div class="card-body">
+                    <h4 class="card-title">
+                      <%= media.challenge.title %> <i class="fas fa-images"></i>
+                    </h4>
+                <% end %>
+                  <p class="card-text">Completed By: <%= media.user.dog_name %></p>
+                  <p class="card-text">Posted On: <%= media.created_at.time.strftime("%d-%m-%Y") %></p>
+                </div>
               </div>
             </div>
-          </div>
+          <% end %>
         <% end %>
-      <% end %>
+      </div>
+      
+      <%# pagination %>
+      <%= will_paginate @uploads, list_classes: %w(pagination justify-content-center) %>
+      <%# end %>
+
     </div>
-    
-    <%# pagination %>
-    <%= will_paginate @uploads, list_classes: %w(pagination justify-content-center) %>
     <%# end %>
 
   </div>
-  <%# end %>
-
 </div>    
 
