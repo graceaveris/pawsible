@@ -2,7 +2,7 @@
 <div class="row">
   <% if @uploads.size > 0 %>
     <% @uploads.each do |media| %>
-      <div class="col-lg-4 col-sm-6 portfolio-item">
+      <div class="col-lg-4 col-sm-6" id="portfolio-item">
         <div class="card h-100">
           <% if %w(mp4).include?(media.media.file.extension.downcase) %>
             <%= link_to image_tag(media.media.thumb.url.to_s, class: "w-100"), upload_path(media.id) %>
