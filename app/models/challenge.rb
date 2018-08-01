@@ -3,8 +3,8 @@ class Challenge < ApplicationRecord
 
   scope :starts_with, -> (challenge_title) { where("title ILIKE ?", "#{challenge_title}%")}
 
-  # validates :sponsor, presence: true
-  # validates :title, presence: true
-  # validates :description, presence: true
-  # validates :points, presence: true
+  validates :sponsor, presence: true
+  validates :title, presence: true
+  validates :description, presence: true
+  validates :points, presence: true
 end
