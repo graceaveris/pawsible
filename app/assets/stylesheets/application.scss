@@ -1,0 +1,134 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+ 
+ @import "bootstrap";
+ 
+ // from css template, 3 column listing
+ body {
+  padding-top: 54px;
+}
+
+@media (min-width: 992px) {
+	body {
+    padding-top: 56px;
+  }
+}
+
+.portfolio-item {
+  margin-bottom: 30px;
+}
+
+.pagination {
+	margin-bottom: 30px;
+}
+
+#nav-logo {
+	width: 30px;
+	height: 30px;
+}
+
+// .profile-pic {
+	// 	width: 250px;
+// 	height: 250px;
+// 	border: 4px solid black;
+// 	border-radius: 50%;
+// }
+
+// .card {
+// 	border: 0;
+// }
+
+// .card-body {
+// 	padding: 12px;
+// }
+
+// .card-title {
+// 	margin: 0.75rem 0;
+// }
+
+// .jumbotron {
+// 	background-image: url('jumbotron.jpeg');
+// 	background-repeat: no-repeat;
+// 	background-size: cover;
+// 	background-position: center;
+//   	text-align: center;
+//   	height: 600px;
+//   	padding: 10rem 4rem;
+// }
+
+// @media (min-width: 576px){
+// 	.jumbotron {
+// 	    padding: 14rem 6rem;
+// 	}
+// }
+
+// .carousel {
+// 	background-color: black; 
+// }
+
+// .carousel-item {
+// 	height: 320px;
+// }
+
+// .carousel-img {
+// 	width: 300px;
+// 	height: 300px;
+// 	margin: auto;
+// }
+
+// .thumbnail {
+// 	width: 100px;
+// 	height: 100px;
+// }
+
+
+// #show-upload-dimensions img {
+// 	width: 800px;
+// }
+
+
+// .profile-badge {
+// 	width: 80px;
+// 	height: 80px;
+// 	margin-top: -160px;
+// 	margin-left: 240px;
+// }
+
+// #challenge-card {
+//     margin: 0px;
+// }
+
+// #search-filter {
+// 	padding-bottom: 15px;
+// }
+
+// #show-page-text {
+// 	margin-left: 20px;
+// }
+
+// .mini-badge {
+// 	width: 40px;
+// 	height: 40px;
+// }
+
+// .table td {
+// 	vertical-align: middle;
+// }
+
+// .circular {
+// 	border-radius: 50%;
+// 	border: 4px solid black;
+// }
