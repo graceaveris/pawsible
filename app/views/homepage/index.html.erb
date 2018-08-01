@@ -93,7 +93,7 @@
                     <video controls="controls" preload="none" src="<%= upload.media.url %>" width="100%" poster="<%= upload.media.thumb.url %>"></video>
                   </a>
                 <% elsif %w(jpg jpeg gif png).include?(upload.media.file.extension.downcase) %>
-                  <%= link_to image_tag(upload.media.url.to_s, class: 'card-img-top'), upload_path(upload.id) %>
+                  <%= link_to image_tag(upload.media.url.to_s, class:"card-img-top"), upload_path(upload.id) %>
                 <% end %>
               <% end %>
 
