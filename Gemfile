@@ -42,9 +42,6 @@ gem "fog-aws"
 # To store sensitive info without upload to git
 gem "figaro"
 
-# Use to do pagination
-gem 'kaminari'
-
 # Use to see the email being sent in development stage
 gem "letter_opener", :group => :development
 

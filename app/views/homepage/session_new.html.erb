@@ -1,54 +1,61 @@
-<div class="container text-center mt-4">
-  <%= image_tag "paw.png", id: "page_icon", class: "my-5" %>
-  <div class="row">
-    <%= button_tag "Sign up", class: "col-4 offset-2 mr-1 btn btn-outline-primary", id: "sign_up" %>
-    <%= button_tag "Sign in", class: "col-4 ml-1 btn btn-outline-primary", id: "sign_in" %>
-  </div>
+<div class="container-fluid text-center my-4">
+  <div style="width: 80vw; margin: auto;">
 
-  <div class="row">
-    <div class="col-8 offset-2 mt-4" id="session_content">
-      <div id="sign_up_content" class="sign-up d-none ml-2">
-        <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
+    <%# page icon %>
+    <%= image_tag "paw.png", id: "page_icon", class: "my-5" %>
+    <%# end %>
 
-        <%= form_for User.new do |form| %>
-          <div class="text-field">            
-            <%= form.text_field :email, type: 'email', class: "form-control my-4", placeholder: "Email address" %>
-          </div>
+    <%# choice for sign in/up %>
+    <div class="row">
+      <%= button_tag "Sign up", class: "col-4 offset-2 mr-1 btn btn-outline-primary", id: "sign_up" %>
+      <%= button_tag "Sign in", class: "col-4 ml-1 btn btn-outline-primary", id: "sign_in" %>
+    </div>
+    <%# end %>
 
-          <div class="password-field">
-            <%= form.password_field :password, class: "form-control my-4", placeholder: "Password" %>
-          </div>
+    <%# row %>
+    <div class="row">
+      <div class="col-8 offset-2 mt-4" id="session_content">
+        <%# sign up content %>
+        <div id="sign_up_content" class="sign-up d-none ml-2">
+          <h1 class="h3 mt-3 mb-4 font-weight-normal">Please sign up</h1>
+          <%= form_for User.new do |form| %>
+            <div class="text-field shadow">            
+              <%= form.text_field :email, type: 'email', class: "form-control my-4", placeholder: "Email address" %>
+            </div>
+            <div class="password-field shadow">
+              <%= form.password_field :password, class: "form-control my-4", placeholder: "Password" %>
+            </div>
+            <div class="submit-field">
+              <%= form.submit "Sign Up", class: "btn btn-lg btn-primary btn-block mt-5 mb-4" %>
+            </div>
+          <% end %>
+        </div>
+        <%# end %>
 
-          <div class="submit-field">
-            <%= form.submit "Sign Up", class: "btn btn-lg btn-primary btn-block my-5" %>
-          </div>
-        <% end %>
-
-      </div>
-
-      <div id="sign_in_content" class="sign-in ml-2">
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-
-        <%= form_for :session, url: session_path do |form| %>
-          <div class="text-field shadow">
-            <%= form.text_field :email, type: 'email', class: "form-control my-4", placeholder: "Email address" %>
-          </div>
-
-          <div class="password-field shadow">
-            <%= form.password_field :password, class: "form-control my-4", placeholder: "Password" %>
-          </div>
-
-          <div class="submit-field">
-            <%= form.submit "Sign In", class: "btn btn-lg btn-primary btn-block my-4" %>
-          </div>
-
-          <div class="other-links">
-            <%= link_to t(".forgot_password"), new_password_path, id: "forgot_password" %>
-          </div>
-        <% end %>
+        <%# sign in content %>
+        <div id="sign_in_content" class="sign-in ml-2">
+          <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+          <%= form_for :session, url: session_path do |form| %>
+            <div class="text-field shadow">
+              <%= form.text_field :email, type: 'email', class: "form-control my-4", placeholder: "Email address" %>
+            </div>
+            <div class="password-field shadow">
+              <%= form.password_field :password, class: "form-control my-4", placeholder: "Password" %>
+            </div>
+            <div class="submit-field">
+              <%= form.submit "Sign In", class: "btn btn-lg btn-primary btn-block my-4" %>
+            </div>
+            <div class="other-links">
+              <%= link_to t(".forgot_password"), new_password_path, id: "forgot_password" %>
+            </div>
+          <% end %>
+        </div>
+        <%# end %>
 
       </div>
     </div>
+    <%# end %>
+    
   </div>
 </div>
 
