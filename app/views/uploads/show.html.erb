@@ -1,57 +1,70 @@
+<div class="container-fluid">
+  <div style="width: 80vw; margin: auto;">
 
-</br></br>
-<div class="container d-flex justify-content-center">
-		<div id="show-upload-dimensions">
+		<%# Heading %>
+		<h1 class="my-4"><%= @upload.challenge.title %></h1>
+		<%# end %>
 
-		  <% if %w(mp4).include?(@upload.media.file.extension.downcase) %>
-		  	<video controls="controls" preload="none" width="800" src="<%= @upload.media.url %>" poster="<%= @upload.media.thumb.url %>"></video>
-			<% elsif %w(jpg jpeg gif png).include?(@upload.media.file.extension.downcase) %>
-		    <%= image_tag @upload.media.url.to_s%>
-			<% end %>
-        </div>
-			  
+    <%# content %>
+		<div class="row">
 
-	    <div class="text-left" id="show-page-text">
-			<h3><%= @upload.challenge.title %></h3>
-			<p class="card-subtitle mb-2 text-muted", style="line-height:18px;">Completed By: <%= @upload.user.dog_name %></p>
-			<p  class="card-subtitle mb-2 text-muted", style="line-height:18px;">Owner: <%= @upload.user.owner_name %></p>
-			<p  class="card-subtitle mb-2 text-muted", style="line-height:18px;">Challenge Sponsored By: <%= @upload.challenge.sponsor %></p>
-
-			<%= button_to "View Profile", user_path(@upload.user.id), method: :get, class: 'mb-4 btn btn-primary' %>
-		      
-
-		</div>
-
-
-</div>
-<%# suggetion part by Leong %>
-<div class="container mt-5">
-	<div>
-		<% if @suggestion.size > 0 %>
-			<h4>Other feed you may like</h4>
-			<div class="row">
-				<% @suggestion.each do |row| %>
-					<div class="col-sm-4">
-						<div class="card">            
-							<div class="card-block">
-								<% if %w(mp4).include?(row.media.file.extension.downcase) %>
-									<a href="<%= upload_path(row.id) %>">
-										<video controls="controls" preload="none" width="100%" src="<%= row.media.url %>" poster="<%= row.media.thumb.url %>"></video>
-									</a>
-								<% elsif %w(jpg jpeg gif png).include?(row.media.file.extension.downcase) %>
-									<%= link_to image_tag(row.media.url.to_s, class: 'w-100'), upload_path(row.id) %>
-								<% end %>
-                <h5 class="card-title"><%= row.challenge.title %></h5>
-                <h6 class="card-subtitle mb-2 text-muted"><%="Completed By: #{row.user.dog_name}" %></h6>
-                <h6 class="card-subtitle mb-2 text-muted"><%="Posted On: #{row.created_at.time.strftime("%d/%m/%Y")}" %></h6>
-                <%= button_to "view", upload_path(row.id), method: :get, class: 'mb-4 btn btn-primary' %>
-							</div>
-						</div>
-					</div>
+			<%# image or video %>
+			<div class="col-md-8" id="show-upload-dimensions">
+				<% if %w(mp4).include?(@upload.media.file.extension.downcase) %>
+					<video controls="controls" preload="none" width="100%" src="<%= @upload.media.url %>" poster="<%= @upload.media.thumb.url %>"></video>
+				<% elsif %w(jpg jpeg gif png).include?(@upload.media.file.extension.downcase) %>
+					<%= image_tag @upload.media.url.to_s, class: "img-fluid"%>
 				<% end %>
 			</div>
-		<% end %>
+			<%# end %>
+
+			<%# description %>
+			<div class="col-md-4">
+				<h3 class="my-3">Challenge Description</h3>
+				<p><%= @upload.challenge.description %></p>
+				<h3 class="my-3">Uploader Details</h3>
+				<ul>
+					<li>Completed By: <%= @upload.user.dog_name %></li>
+					<li>Owner: <%= @upload.user.owner_name %></li>
+					<li>Challenge Sponsored By: <%= @upload.challenge.sponsor %></li>
+				</ul>
+				<%= button_to "View Owner Profile", user_path(@upload.user.id), method: :get, class: 'btn btn-primary' %>
+			</div>
+			<%# end %>
+
+		</div>
+		<%# end %>
+
+		<%# suggestion heading %>
+		<h3 class="my-4">Related Feeds</h3>
+		<%# end %>
+
+		<div class="row">
+
+			<% @suggestion.each do |row| %>
+				<%# each suggestion %>
+				<div class="col-md-4 col-sm-6 mb-4">
+					<div class="card h-100">
+						<% if %w(mp4).include?(row.media.file.extension.downcase) %>
+							<%= link_to image_tag(row.media.thumb.url.to_s, class: "w-100"), upload_path(row.id) %>
+							<div class="card-body">
+								<h4 class="card-title">
+									<%= row.challenge.title %> <i class="fas fa-video"></i>
+						<% elsif %w(jpg jpeg gif png).include?(row.media.file.extension.downcase) %>
+							<%= link_to image_tag(row.media.url.to_s, class: 'w-100'), upload_path(row.id) %>
+							<div class="card-body">
+								<h4 class="card-title">
+									<%= row.challenge.title %> <i class="fas fa-images"></i>
+						<% end %>
+							</h4>
+							<p class="card-text">Completed By: <%= row.user.dog_name %></p>
+						</div>
+					</div>
+				</div>
+				<%# end %>
+
+			<% end %>
+
+		</div>
 	</div>
 </div>
-<%# end %>
-</br></br></br></br></br>
