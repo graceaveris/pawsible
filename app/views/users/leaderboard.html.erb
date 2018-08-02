@@ -32,7 +32,7 @@
         <div class="col-md-4 mb-3">
           <h3>Points: <span class="text-success"><strong><%= dog.total_points %></strong></span></h3>
           <p>Name: <%= dog.dog_name %></p>
-          <p>About me: <%= dog.dog_name %></p>
+          <p>About me: <%= dog.bio %></p>
           <p>Parent: <%= dog.owner_name %></p>
           <%= button_to "View Profile", user_path(dog.id), method: :get, class:"btn btn-primary" %>
         </div>
