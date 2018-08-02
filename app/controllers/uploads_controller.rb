@@ -13,7 +13,6 @@ class UploadsController < ApplicationController
       flash[:error] = "Upload failed. Please try again."
       redirect_to challenges_path
     end
-    p upload.errors
   end
 
   def show
