@@ -1,12 +1,22 @@
 <div class="container-fluid mb-4">
   <div style="width: 80vw; margin: auto;">
-
+    
     <%# title %>
     <h1 class="my-5">LeaderBoard</h1>
     <%# end %>
     
     <%# row %>
     <% @leaderboard.each_with_index do |dog, index| %>
+      <%# logic to show more than 10 for pagination %>
+      <% if params[:page].nil? %>
+        <% temp = 1 %>
+      <% else %>
+        <% temp = params[:page].to_i %>
+      <% end %>
+      <% multiple = (temp - 1) * 10 %>
+      <% show = index + 1 + multiple %>
+      <%# end %>
+
       <div class="row mt-4 mb-0">
 
         <%# profile image, ranking, bagde %>
@@ -14,7 +24,13 @@
           <div style="position: relative;">
             <div style="position: absolute; top: -19px; left: -28px;">
               <i class="fas fa-star text-warning fa-5x"></i>
-              <span class="h1 text-white" style="position: absolute; top: 20px; left: 36px;"><%= index + 1 %></span>
+              <% if show >= 10 %>
+                <span class="h1 text-white" style="position: absolute; top: 20px; left: 28px;">
+              <% else %>
+                <span class="h1 text-white" style="position: absolute; top: 20px; left: 33px;">
+              <% end %>
+                <%= show %>
+              </span>
             </div>
             <% if !dog.profile_pic.file.nil? %>
               <%= image_tag dog.profile_pic.url.to_s, class: "rounded-circle img-fluid d-blockd" %>
