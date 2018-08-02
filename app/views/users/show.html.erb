@@ -106,13 +106,13 @@
 <div id="pt">
 	<div class="container-fluid">
 		<div style="width: 80vw; margin: auto;">
-    	<h2 class="my-2 text-center">Challenged by ME</h2>
+    	<h2 class="my-2 text-center">Challenges by ME</h2>
 			<div class="row text-center" id="mt">
 				<% if @user.uploads.size < 1 %>
 					<div class="col-md-4 bg-white mx-auto px-0">
         		<div class="card">
           		<div class="card-body text-center pb-0 px-0">
-            		<h4 class="card-title">You have not done any challenge yet</h4>
+            		<h4 class="card-title">You have not done any challenges yet</h4>
             		<hr>
             		<p class="card-text">
 									<%= button_to "Click to see challenges", challenges_path, method: :get, class: "btn btn-primary" %>
